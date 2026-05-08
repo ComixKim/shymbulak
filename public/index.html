@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>YOKO × Shymbulak — Rental Module · КП 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+ :root{
+ --ink:#0A0A0A;
+ --paper:#FAFAFA;
+ --line:#E6E6E6;
+ --grey:#6B6B6B;
+ --grey-2:#9A9A9A;
+ --accent:#00A3E0;
+ --accent-deep:#0077A8;
+ --warn:#D9534F;
+ --ok:#1A7A1A;
+ --amber:#B8860B;
+ }
+ *{box-sizing:border-box;margin:0;padding:0}
+ html,body{background:var(--paper);color:var(--ink);font-family:'Manrope',sans-serif;-webkit-font-smoothing:antialiased}
+ body{font-size:16px;line-height:1.5;font-weight:400;overflow-x:hidden}
+ ::selection{background:var(--accent);color:#fff}
+
+ .container{max-width:1280px;margin:0 auto;padding:0 40px}
+ @media (max-width:720px){.container{padding:0 24px}}
+
+ /* ───── NAV ───── */
+ nav{
+ position:sticky;top:0;z-index:50;
+ background:rgba(250,250,250,.92);
+ backdrop-filter:blur(12px);
+ border-bottom:1px solid var(--line);
+ }
+ nav .row{display:flex;align-items:center;justify-content:space-between;height:64px}
+ .logo{font-weight:800;font-size:22px;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+ .logo .x{color:var(--grey-2);font-weight:500}
+ .logo .partner{color:var(--ink);font-weight:600}
+ .nav-links{display:flex;gap:28px;font-size:14px;color:var(--grey)}
+ .nav-links a{color:inherit;text-decoration:none;transition:color .2s}
+ .nav-links a:hover{color:var(--ink)}
+ .nav-cta{padding:10px 20px;background:var(--ink);color:#fff;border-radius:999px;font-size:14px;font-weight:600;text-decoration:none;transition:transform .2s}
+ .nav-cta:hover{transform:translateY(-1px)}
+ @media (max-width:820px){.nav-links{display:none}}
+
+ /* ───── SECTION META ───── */
+ .section-meta{
+ display:flex;align-items:center;gap:14px;
+ font-size:13px;color:var(--grey);
+ margin-bottom:32px;font-weight:500;
+ }
+ .section-meta .num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--grey-2);letter-spacing:.05em}
+ .section-meta .arrow{display:inline-block;width:24px;height:1px;background:var(--ink);position:relative}
+ .section-meta .arrow::after{
+ content:'';position:absolute;right:-1px;top:-3px;
+ width:7px;height:7px;border-top:1px solid var(--ink);border-right:1px solid var(--ink);
+ transform:rotate(45deg);
+ }
+
+ /* ───── HERO ───── */
+ .hero{padding:80px 0 100px;position:relative;overflow:hidden}
+ .hero h1{
+ font-size:clamp(48px,8vw,128px);
+ font-weight:800;
+ line-height:.92;letter-spacing:-.035em;
+ margin-bottom:40px;
+ }
+ .hero h1 .arrow-inline{
+ display:inline-block;color:var(--grey-2);
+ font-weight:300;margin:0 .15em;transform:translateY(-.15em);
+ }
+ .hero h1 .accent-block{
+ display:inline-block;background:var(--accent);color:#fff;
+ padding:0 .15em;margin-right:.1em;transform:skew(-3deg);
+ }
+ .hero .lead{
+ font-size:clamp(18px,1.6vw,22px);font-weight:500;
+ color:var(--grey);max-width:680px;line-height:1.45;
+ margin-bottom:48px;
+ }
+ .hero .meta-bar{
+ display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+ border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+ padding:24px 0;
+ }
+ .hero .meta-bar > div{padding:0 24px;border-right:1px solid var(--line)}
+ .hero .meta-bar > div:first-child{padding-left:0}
+ .hero .meta-bar > div:last-child{border-right:none;padding-right:0}
+ .hero .meta-bar .k{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--grey-2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+ .hero .meta-bar .v{font-weight:700;font-size:15px;letter-spacing:-.01em}
+ @media (max-width:720px){
+ .hero .meta-bar{grid-template-columns:repeat(2,1fr);row-gap:20px}
+ .hero .meta-bar > div{padding:8px 16px;border-right:1px solid var(--line)}
+ .hero .meta-bar > div:nth-child(2){border-right:none;padding-right:0}
+ .hero .meta-bar > div:nth-child(odd){padding-left:0}
+ }
+
+ /* ───── KILLER STATS ───── */
+ .stats{padding:80px 0;border-bottom:1px solid var(--line)}
+ .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:48px}
+ .stat .num{font-size:clamp(36px,5vw,64px);font-weight:800;letter-spacing:-.04em;line-height:.9;margin-bottom:14px}
+ .stat .num .small{font-size:.55em;color:var(--grey-2);font-weight:600}
+ .stat .label{font-size:14px;color:var(--grey);line-height:1.4;font-weight:500}
+ @media (max-width:820px){.stats-grid{grid-template-columns:repeat(2,1fr);gap:32px}}
+
+ /* ───── PROBLEM ───── */
+ .problem{padding:120px 0;border-bottom:1px solid var(--line)}
+ .problem h2{font-size:clamp(36px,5vw,72px);font-weight:800;letter-spacing:-.03em;line-height:1;margin-bottom:48px;max-width:1000px}
+ .problem h2 em{font-style:normal;color:var(--accent);font-weight:800}
+ .problem-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:start}
+ .problem .body{font-size:18px;line-height:1.65;color:var(--grey);max-width:600px}
+ .problem .body p{margin-bottom:18px}
+ .problem .body strong{color:var(--ink);font-weight:600}
+ .quote-card{
+ background:var(--ink);color:var(--paper);
+ padding:40px 36px;border-radius:4px;
+ position:relative;
+ }
+ .quote-card .qmark{position:absolute;top:18px;right:24px;font-size:80px;line-height:1;color:var(--accent);font-family:'Manrope';font-weight:800}
+ .quote-card .label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--grey-2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:20px}
+ .quote-card blockquote{font-size:20px;line-height:1.45;font-weight:500;letter-spacing:-.01em;margin-bottom:24px}
+ .quote-card .source{font-size:13px;color:var(--grey-2);font-family:'JetBrains Mono',monospace}
+ @media (max-width:820px){.problem-grid{grid-template-columns:1fr;gap:48px}}
+
+ /* ───── SCOPE (dark) ───── */
+ .scope{padding:120px 0;background:var(--ink);color:var(--paper);position:relative;overflow:hidden}
+ .scope .section-meta{color:var(--grey-2)}
+ .scope .section-meta .num{color:var(--grey)}
+ .scope .section-meta .arrow,.scope .section-meta .arrow::after{background:var(--paper);border-color:var(--paper)}
+ .scope h2{font-size:clamp(40px,6.5vw,96px);font-weight:800;letter-spacing:-.035em;line-height:.95;margin-bottom:24px}
+ .scope h2 .accent{color:var(--accent)}
+ .scope .lead{font-size:20px;line-height:1.55;color:var(--grey-2);max-width:780px;margin-bottom:80px;font-weight:500}
+ .scope .lead strong{color:var(--paper);font-weight:700}
+
+ .scope-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#2A2A2A;border:1px solid #2A2A2A}
+ .scope-item{background:var(--ink);padding:36px;display:flex;flex-direction:column;gap:16px}
+ .scope-item .num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.1em}
+ .scope-item h4{font-size:18px;font-weight:700;letter-spacing:-.005em;line-height:1.3}
+ .scope-item p{font-size:14px;line-height:1.6;color:var(--grey-2)}
+ .scope-item ul{list-style:none;display:flex;flex-direction:column;gap:10px;padding:0}
+ .scope-item ul li{font-size:14px;color:var(--grey-2);display:flex;gap:10px}
+ .scope-item ul li .bullet{color:var(--accent);font-weight:700}
+ @media (max-width:1100px){.scope-grid{grid-template-columns:repeat(2,1fr)}}
+ @media (max-width:680px){.scope-grid{grid-template-columns:1fr}}
+
+ .pricing-card{
+ margin-top:80px;background:var(--paper);color:var(--ink);
+ padding:48px;border-radius:4px;
+ display:grid;grid-template-columns:1fr 1.4fr;gap:48px;align-items:center;
+ }
+ .pricing-card .left .label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--grey);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+ .pricing-card .left .price{font-size:56px;font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:8px}
+ .pricing-card .left .duration{font-size:15px;color:var(--grey);font-weight:500}
+ .pricing-card .right{font-size:16px;line-height:1.55;color:var(--grey)}
+ .pricing-card .right strong{color:var(--ink);font-weight:700}
+ .pricing-card .right .highlight{display:inline-block;background:var(--accent);color:#fff;padding:2px 8px;font-weight:700;margin:4px 0}
+ @media (max-width:820px){.pricing-card{grid-template-columns:1fr;gap:32px;padding:36px 28px}}
+
+ /* ───── TIMELINE ───── */
+ .timeline-section{padding:120px 0;border-bottom:1px solid var(--line)}
+ .timeline-section h2{font-size:clamp(36px,5vw,72px);font-weight:800;letter-spacing:-.03em;line-height:1;margin-bottom:48px;max-width:900px}
+ .timeline-section .subtitle{font-size:18px;color:var(--grey);max-width:720px;margin-bottom:64px;line-height:1.5}
+
+ .timeline{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+ .timeline .step{padding:28px 22px;border-right:1px solid var(--line);position:relative;min-height:180px;display:flex;flex-direction:column}
+ .timeline .step:last-child{border-right:none}
+ .timeline .step .num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--grey-2);margin-bottom:14px;letter-spacing:.05em}
+ .timeline .step .title{font-size:16px;font-weight:700;line-height:1.25;letter-spacing:-.01em;margin-bottom:14px;flex-grow:1}
+ .timeline .step .detail{font-size:13px;color:var(--grey);line-height:1.4;margin-bottom:auto}
+ .timeline .step .days{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ink);font-weight:500;margin-top:auto;padding-top:12px;border-top:1px dashed var(--line)}
+ @media (max-width:1100px){.timeline{grid-template-columns:repeat(3,1fr)}.timeline .step{border-bottom:1px solid var(--line)}.timeline .step:nth-child(3n){border-right:none}}
+ @media (max-width:680px){.timeline{grid-template-columns:repeat(2,1fr)}.timeline .step:nth-child(3n){border-right:1px solid var(--line)}.timeline .step:nth-child(2n){border-right:none}}
+
+ /* ───── COMPARISON ───── */
+ .compare{padding:120px 0;border-bottom:1px solid var(--line)}
+ .compare h2{font-size:clamp(32px,4vw,56px);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-bottom:64px;max-width:900px}
+ .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+ .compare-col{padding:40px;border:1px solid var(--line);border-radius:4px}
+ .compare-col .badge{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:20px;padding:6px 12px;border-radius:999px;display:inline-block}
+ .compare-col.badge-mvp .badge{background:var(--accent);color:#fff}
+ .compare-col.badge-full .badge{background:var(--ink);color:#fff}
+ .compare-col h3{font-size:28px;font-weight:800;letter-spacing:-.03em;margin-bottom:8px}
+ .compare-col .price{font-size:38px;font-weight:800;letter-spacing:-.04em;margin-bottom:24px}
+ .compare-col ul{list-style:none;display:flex;flex-direction:column;gap:12px;padding:0}
+ .compare-col ul li{display:flex;gap:12px;font-size:15px;line-height:1.5;color:var(--grey)}
+ .compare-col ul li .check{flex-shrink:0;color:var(--ok);font-weight:700}
+ .compare-col ul li .cross{flex-shrink:0;color:var(--warn);font-weight:700}
+ @media (max-width:820px){.compare-grid{grid-template-columns:1fr;gap:32px}}
+
+ /* ───── BUDGET BREAKDOWN ───── */
+ .budget-table{width:100%;border-collapse:collapse;margin-top:48px;font-size:15px}
+ .budget-table th{text-align:left;padding:12px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey-2);border-bottom:1px solid var(--ink);font-weight:500}
+ .budget-table td{padding:14px 16px;border-bottom:1px solid var(--line);color:var(--grey)}
+ .budget-table td:first-child{color:var(--ink);font-weight:600}
+ .budget-table td:last-child{text-align:right;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:var(--ink)}
+ .budget-table tr.total td{border-top:2px solid var(--ink);border-bottom:none;font-weight:700;color:var(--ink);padding-top:18px}
+ .budget-table tr.total td:last-child{font-size:17px}
+ .budget-table tr.discount td{color:var(--ok)}
+ .budget-table tr.discount td:last-child{color:var(--ok)}
+
+ /* ───── CTA ───── */
+ .cta-block{padding:160px 0 120px;position:relative;overflow:hidden}
+ .cta-block .container{position:relative;z-index:2}
+ .cta-block h2{
+ font-size:clamp(56px,12vw,180px);font-weight:800;
+ letter-spacing:-.045em;line-height:.88;margin-bottom:48px;
+ }
+ .cta-block h2 .accent{color:var(--accent)}
+ .cta-block .actions{display:flex;gap:20px;flex-wrap:wrap;align-items:center;margin-bottom:80px}
+ .btn-primary{
+ background:var(--ink);color:#fff;padding:22px 40px;
+ font-size:16px;font-weight:600;text-decoration:none;
+ border-radius:999px;display:inline-flex;align-items:center;gap:12px;
+ transition:transform .2s, background .2s;
+ }
+ .btn-primary:hover{background:var(--accent);transform:translateY(-2px)}
+ .btn-primary .arrow{transition:transform .3s}
+ .btn-primary:hover .arrow{transform:translateX(4px)}
+ .btn-secondary{
+ background:transparent;color:var(--ink);padding:22px 32px;
+ font-size:16px;font-weight:600;text-decoration:none;
+ border:1.5px solid var(--ink);border-radius:999px;
+ transition:all .2s;
+ }
+ .btn-secondary:hover{background:var(--ink);color:#fff}
+
+ .cta-meta{
+ display:grid;grid-template-columns:repeat(3,1fr);gap:48px;
+ border-top:1px solid var(--line);padding-top:40px;
+ }
+ .cta-meta .item .label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--grey-2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+ .cta-meta .item .value{font-size:18px;font-weight:600;letter-spacing:-.01em;line-height:1.4}
+ .cta-meta .item .value a{color:inherit;text-decoration:none;border-bottom:1px solid var(--accent)}
+ @media (max-width:680px){.cta-meta{grid-template-columns:1fr;gap:24px}}
+
+ /* ───── FOOTER ───── */
+ footer{padding:64px 0 40px;border-top:1px solid var(--line);font-size:13px;color:var(--grey)}
+ footer .row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+ footer .y-mark{font-weight:800;font-size:24px;letter-spacing:-.02em;color:var(--ink)}
+ footer .meta{font-family:'JetBrains Mono',monospace;font-size:12px}
+
+ /* ───── INTEGRATIONS STRIP ───── */
+ .integrations{padding:60px 0;border-bottom:1px solid var(--line);background:#F3F7FA}
+ .integrations .label-top{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--grey-2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:24px;text-align:center}
+ .int-strip{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+ .int-tag{padding:8px 16px;border:1px solid var(--line);border-radius:999px;font-size:13px;font-weight:600;color:var(--grey);background:#fff;white-space:nowrap}
+ .int-tag.key{border-color:var(--accent);color:var(--accent)}
+
+ /* ───── ANIMATIONS ───── */
+ @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+ .hero h1, .hero .lead, .hero .meta-bar{animation:fadeUp .8s cubic-bezier(.2,.8,.2,1) both}
+ .hero .lead{animation-delay:.15s}
+ .hero .meta-bar{animation-delay:.3s}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav>
+ <div class="container">
+ <div class="row">
+ <div class="logo">YOKO <span class="x">×</span> <span class="partner">Shymbulak</span></div>
+ <div class="nav-links">
+ <a href="#problem">Задача</a>
+ <a href="#scope">Состав</a>
+ <a href="#timeline">Сроки</a>
+ <a href="#compare">Варианты</a>
+ </div>
+ <a href="https://docs.google.com/spreadsheets/d/1tVweIXcTxGKwEiX0MtIq9mlUygPexmL6NCrvXU9RkU4/edit?gid=1338278813#gid=1338278813" target="_blank" class="nav-cta">Детализация ↗</a>
+ </div>
+ </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section class="hero">
+ <div class="container">
+ <div class="section-meta">
+ <span class="num">01</span>
+ <span class="arrow"></span>
+ <span>Коммерческое предложение · Shymbulak / Chimbulak Dev · Алматы 2026</span>
+ </div>
+
+ <h1>
+ Rental<br>
+ <span class="accent-block">Module</span><br>
+ <span class="arrow-inline">→</span> Шымбулак
+ </h1>
+
+ <p class="lead">
+   Комплексная система проката горнолыжного снаряжения: Check-In киоски с OCR-сканированием, цифровые подписи, мобильное приложение, интеграция с Halyk Bank / Kaspi QR, аналитика и Board-управление — всё в одной платформе.
+ </p>
+
+ <div class="meta-bar">
+ <div><div class="k">Клиент</div><div class="v">Shymbulak / Chimbulak Dev</div></div>
+ <div><div class="k">Сегмент</div><div class="v">Туризм · Горнолыжка · KZ</div></div>
+ <div><div class="k">Срок</div><div class="v">24 недели (~6 мес.)</div></div>
+ <div><div class="k">Бюджет</div><div class="v">55 581 500 ₸</div></div>
+ </div>
+ </div>
+</section>
+
+<!-- ═══════════════════ STATS ═══════════════════ -->
+<section class="stats">
+ <div class="container">
+ <div class="section-meta">
+ <span class="num">02</span>
+ <span class="arrow"></span>
+ <span>Масштаб проекта</span>
+ </div>
+ <div class="stats-grid">
+ <div class="stat">
+ <div class="num">32<span class="small"> мод.</span></div>
+ <div class="label">Функциональных модуля от Check-In до Board-администрирования и аналитики.</div>
+ </div>
+ <div class="stat">
+ <div class="num">3 192<span class="small"> ч</span></div>
+ <div class="label">Трудозатрат команды: Backend, Frontend, Mobile, QA, PM — 6 специалистов.</div>
+ </div>
+ <div class="stat">
+ <div class="num">24<span class="small"> нед.</span></div>
+ <div class="label">От подписания договора до Go-live. Параллельные фазы, AI-ускорение процессов.</div>
+ </div>
+ <div class="stat">
+ <div class="num">15<span class="small">%</span></div>
+ <div class="label">Скидка применена. Финальная цена — 55,6 млн ₸ вместо базовых 65,4 млн ₸.</div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- ═══════════════════ INTEGRATIONS ═══════════════════ -->
+<section class="integrations">
+ <div class="container">
+ <div class="label-top">Ключевые интеграции и технологии</div>
+ <div class="int-strip">
+ <span class="int-tag key">Halyk Bank эквайринг</span>
+ <span class="int-tag key">Kaspi QR</span>
+ <span class="int-tag key">WebKassa фискализация</span>
+ <span class="int-tag key">Regula OCR</span>
+ <span class="int-tag key">eGovMobile ЭЦП</span>
+ <span class="int-tag key">Verigram FaceID</span>
+ <span class="int-tag">Java 17 · Spring Boot</span>
+ <span class="int-tag">Vue.js 3 · Nuxt.js</span>
+ <span class="int-tag">Flutter (iOS / Android)</span>
+ <span class="int-tag">PostgreSQL</span>
+ <span class="int-tag">Active Directory LDAP</span>
+ <span class="int-tag">Docker · Kubernetes</span>
+ <span class="int-tag">Halyk Pre-auth (залог)</span>
+ <span class="int-tag">Velvet Club</span>
+ <span class="int-tag">RU / KK / EN</span>
+ </div>
+ </div>
+</section>
+
+<!-- ═══════════════════ PROBLEM ═══════════════════ -->
+<section class="problem" id="problem">
+ <div class="container">
+ <div class="section-meta">
+ <span class="num">03</span>
+ <span class="arrow"></span>
+ <span>Задача и почему сейчас</span>
+ </div>
+
+ <h2>Ручной прокат — <em>очереди</em>, ошибки и потерянная выручка в пиковый сезон.</h2>
+
+ <div class="problem-grid">
+ <div class="body">
+ <p>Шымбулак — ведущий горнолыжный курорт Казахстана. В пик сезона тысячи гостей берут снаряжение напрокат. Сегодня этот процесс держится на ручных операциях, разрозненных системах и живых очередях.</p>
+
+ <p><strong>Что болит прямо сейчас:</strong></p>
+ <p>— <strong>Очереди на выдачу</strong>: ручное оформление документов — 5–10 мин. на клиента в час-пик<br>
+ — <strong>Нет цифрового склада</strong>: инвентаризация снаряжения вручную → пересортица, нехватки<br>
+ — <strong>Оплата разрозненно</strong>: наличные, терминалы, фискализация — не в одной системе<br>
+ — <strong>Нет идентификации</strong>: документы сканируются вручную, залог берётся неавтоматически<br>
+ — <strong>Нет аналитики</strong>: руководство не видит загрузку, выручку и эффективность в реальном времени<br>
+ — <strong>Board изолирован</strong>: управление пользователями, правами и кэшбеком — вручную</p>
+
+ <p>Chimbulak Development приняло решение <strong>строить собственную платформу</strong> — готовых коробочных решений такого уровня на рынке СНГ нет.</p>
+ </div>
+
+ <div class="quote-card">
+ <div class="qmark">"</div>
+ <div class="label">Из обсуждения · 29.04.2026</div>
+ <blockquote>Нужна полноценная система, которая охватит весь процесс: от скана документов и подписи договора до оплаты, выдачи оборудования и аналитики по каждой точке проката.</blockquote>
+ <div class="source">— Встреча с командой Shymbulak, 29.04.2026</div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- ═══════════════════ SCOPE ═══════════════════ -->
+<section class="scope" id="scope">
+ <div class="container">
+ <div class="section-meta">
+ <span class="num">04</span>
+ <span class="arrow"></span>
+ <span>Состав работ · 32 модуля</span>
+ </div>
+
+ <h2>Что входит в <span class="accent">55 581 500 ₸.</span></h2>
+
+ <p class="lead">
+ 9 функциональных блоков — от инфраструктуры до мобильного приложения. <strong>Полный цикл</strong>: UX/UI, разработка, интеграции, QA, UAT и поддержка при запуске.
+ </p>
+
+ <div class="scope-grid">
+ <div class="scope-item">
+ <div class="num">01 · Check-In & Касса — 504 ч</div>
+ <h4>Самообслуживание на точке проката</h4>
+ <ul>
+ <li><span class="bullet">→</span>Check-In Desk: touch-UI киоска в брендбуке Шымбулак</li>
+ <li><span class="bullet">→</span>OCR Regula SDK: скан удостоверения / паспорта</li>
+ <li><span class="bullet">→</span>Электронная очередь + TV-панели (WebSocket, реальное время)</li>
+ <li><span class="bullet">→</span>Рабочее место техника: штрихкод, паузы, возвраты, история заказа</li>
+ </ul>
+ </div>
+ <div class="scope-item">
+ <div class="num">02 · Платёжный контур — 330 ч</div>
+ <h4>Полный цикл оплаты и фискализации</h4>
+ <ul>
+ <li><span class="bullet">→</span>WebKassa: фискализация + электронный чек на email / SMS</li>
+ <li><span class="bullet">→</span>Halyk Bank: POS-эквайринг и Pre-authorization (холд залога)</li>
+ <li><span class="bullet">→</span>Kaspi QR: бесконтактная оплата для физлиц</li>
+ <li><span class="bullet">→</span>Автоматическое списание залога / возврат по статусу возврата</li>
+ </ul>
+ </div>
+ <div class="scope-item">
+ <div class="num">03 · Онлайн & Mobile — 508 ч</div>
+ <h4>Flutter-приложение и веб-интерфейс</h4>
+ <ul>
+ <li><span class="bullet">→</span>Единая корзина: rental + ski pass в одной покупке</li>
+ <li><span class="bullet">→</span>QR-код выдачи: генерация + сканирование при получении</li>
+ <li><span class="bullet">→</span>eGovMobile: ЭЦП для резидентов РК (без бумажного договора)</li>
+ <li><span class="bullet">→</span>DocuSign-like: цифровая подпись для нерезидентов</li>
+ <li><span class="bullet">→</span>Face ID + Verigram Liveness: биометрическая идентификация</li>
+ </ul>
+ </div>
+ <div class="scope-item">
+ <div class="num">04 · Ядро платформы — 486 ч</div>
+ <h4>Backend-инфраструктура и склад</h4>
+ <ul>
+ <li><span class="bullet">→</span>Inventory Service: склад в реальном времени, мультифилиал</li>
+ <li><span class="bullet">→</span>Динамическое ценообразование: сезон / день недели / время</li>
+ <li><span class="bullet">→</span>Авторизация через Active Directory (LDAP) для сотрудников</li>
+ <li><span class="bullet">→</span>Java 17 / Spring Boot / PostgreSQL / Redis</li>
+ </ul>
+ </div>
+ <div class="scope-item">
+ <div class="num">05 · Аналитика & Velvet Club — 450 ч</div>
+ <h4>Дашборды и VIP-управление</h4>
+ <ul>
+ <li><span class="bullet">→</span>Дашборд сотрудника: своя очередь, статистика смены</li>
+ <li><span class="bullet">→</span>Дашборд супервайзера: загрузка, выручка, KPI по точкам</li>
+ <li><span class="bullet">→</span>Velvet Club: консьерж-заказы с постоплатой</li>
+ <li><span class="bullet">→</span>AR-модуль: дебиторская задолженность, отчёты</li>
+ </ul>
+ </div>
+ <div class="scope-item">
+ <div class="num">06 · Board & Rental Entities — 572 ч</div>
+ <h4>Администрирование и новые сущности</h4>
+ <ul>
+ <li><span class="bullet">→</span>Управление пользователями: приглашение, права доступа, аудит</li>
+ <li><span class="bullet">→</span>Журнал аудита: полная история действий с выгрузкой Excel</li>
+ <li><span class="bullet">→</span>Кэшбек-система: партнёры, БИН-карты, % кэшбека</li>
+ <li><span class="bullet">→</span>Новые сущности: RentalUnit, RentalOrder, RentalAgreement, EquipmentStatus</li>
+ </ul>
+ </div>
+ </div>
+
+ <div class="pricing-card">
+ <div class="left">
+ <div class="label">Итого к оплате (со скидкой 15%)</div>
+ <div class="price">55 581 500 ₸</div>
+ <div class="duration">24 недели · Java + Vue.js + Flutter</div>
+ </div>
+ <div class="right">
+ <p><strong>Скидка 15% зафиксирована</strong> на весь объём работ — базовая стоимость 65 390 000 ₸, итого экономия 9 808 500 ₸. Цена фиксированная: никаких доплат за «дополнительные требования», покрытые текущим ТЗ.</p>
+ <p style="margin-top:14px">График платежей: <span class="highlight">40% аванс при старте</span> → 30% по итогам Phase 2 (Check-In & Payments) → 30% при Go-live.</p>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- ═══════════════════ TIMELINE ═══════════════════ -->
+<section class="timeline-section" id="timeline">
+ <div class="container">
+ <div class="section-meta">
+ <span class="num">05</span>
+ <span class="arrow"></span>
+ <span>График работ · 24 недели</span>
+ </div>
+
+ <h2>От старта до Go-live — 6 месяцев.</h2>
+ <p class="subtitle">Параллельные фазы разработки позволяют уложиться в 24 недели вместо стандартных 9–12 при последовательном подходе.</p>
+
+ <div class="timeline">
+ <div class="step">
+ <div class="num">01</div>
+ <div class="title">Кикофф & Архитектура</div>
+ <div class="detail">SRS, техническая архитектура, настройка CI/CD, DB-схема, структура команды</div>
+ <div class="days">Недели 1–3</div>
+ </div>
+ <div class="step">
+ <div class="num">02</div>
+ <div class="title">Core Platform + Check-In</div>
+ <div class="detail">Inventory Service, Dynamic Pricing, AD Auth, Check-In Desk UI, OCR Regula, очередь</div>
+ <div class="days">Недели 2–10</div>
+ </div>
+ <div class="step">
+ <div class="num">03</div>
+ <div class="title">Payments + eGov + FaceID</div>
+ <div class="detail">WebKassa, Halyk Bank эквайринг + Pre-auth, Kaspi QR, eGovMobile, Verigram Liveness</div>
+ <div class="days">Недели 7–14</div>
+ </div>
+ <div class="step">
+ <div class="num">04</div>
+ <div class="title">Mobile + Analytics + Velvet</div>
+ <div class="detail">Flutter-приложение, дашборды, Velvet Club, AR модуль, Board доработки</div>
+ <div class="days">Недели 12–19</div>
+ </div>
+ <div class="step">
+ <div class="num">05</div>
+ <div class="title">QA · UAT · Go-live</div>
+ <div class="detail">Регрессия, нагрузочное тестирование, UAT с заказчиком, исправления, Go-live поддержка</div>
+ <div class="days">Недели 18–24</div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- ═══════════════════ BUDGET BREAKDOWN ═══════════════════ -->
+<section style="padding:120px 0;border-bottom:1px solid var(--line)">
+ <div class="container">
+ <div class="section-meta">
+ <span class="num">06</span>
+ <span class="arrow"></span>
+ <span>Детализация бюджета по блокам</span>
+ </div>
+ <h2 style="font-size:clamp(32px,4vw,56px);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-bottom:48px;max-width:900px">Прозрачная стоимость каждого блока.</h2>
+
+ <table class="budget-table">
+ <thead>
+ <tr>
+ <th>Блок работ</th>
+ <th>Часов</th>
+ <th>Стоимость (без скидки)</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>Check-In & Касса самообслуживания</td>
+ <td>504 ч</td>
+ <td>10 180 000 ₸</td>
+ </tr>
+ <tr>
+ <td>Онлайн & Мобайл (Flutter + ЭЦП + FaceID)</td>
+ <td>508 ч</td>
+ <td>10 580 000 ₸</td>
+ </tr>
+ <tr>
+ <td>Ядро платформы (Inventory, Pricing, Auth)</td>
+ <td>486 ч</td>
+ <td>10 510 000 ₸</td>
+ </tr>
+ <tr>
+ <td>Платёжный контур (WebKassa, Halyk, Kaspi)</td>
+ <td>330 ч</td>
+ <td>7 000 000 ₸</td>
+ </tr>
+ <tr>
+ <td>Board Доработки + Rental Entities</td>
+ <td>339 ч</td>
+ <td>7 135 000 ₸</td>
+ </tr>
+ <tr>
+ <td>QA, UAT & Project Management</td>
+ <td>342 ч</td>
+ <td>5 990 000 ₸</td>
+ </tr>
+ <tr>
+ <td>Аналитика & Velvet Club</td>
+ <td>450 ч</td>
+ <td>9 290 000 ₸</td>
+ </tr>
+ <tr>
+ <td>Нефункциональные (UX/UI, i18n, Offline)</td>
+ <td>233 ч</td>
+ <td>4 705 000 ₸</td>
+ </tr>
+ <tr class="discount">
+ <td>Скидка (15% на весь объём)</td>
+ <td>—</td>
+ <td>−9 808 500 ₸</td>
+ </tr>
+ <tr class="total">
+ <td>ИТОГО К ОПЛАТЕ</td>
+ <td>3 192 ч</td>
+ <td>55 581 500 ₸</td>
+ </tr>
+ </tbody>
+ </table>
+
+ <div style="margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
+ <div style="padding:28px;border:1px solid var(--line);border-radius:4px">
+ <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--grey-2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">1-й платёж (аванс 40%)</div>
+ <div style="font-size:28px;font-weight:800;letter-spacing:-.03em;margin-bottom:8px">22 232 600 ₸</div>
+ <div style="font-size:14px;color:var(--grey)">При подписании договора. Старт разработки в течение 5 рабочих дней.</div>
+ </div>
+ <div style="padding:28px;border:1px solid var(--line);border-radius:4px">
+ <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--grey-2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">2-й платёж (30%) — W12</div>
+ <div style="font-size:28px;font-weight:800;letter-spacing:-.03em;margin-bottom:8px">16 674 450 ₸</div>
+ <div style="font-size:14px;color:var(--grey)">По акту приёмки Phase 2: Check-In Desk + Платёжный контур готовы.</div>
+ </div>
+ <div style="padding:28px;border:1px solid var(--line);border-radius:4px">
+ <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--grey-2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">3-й платёж (30%) — W24</div>
+ <div style="font-size:28px;font-weight:800;letter-spacing:-.03em;margin-bottom:8px">16 674 450 ₸</div>
+ <div style="font-size:14px;color:var(--grey)">После успешного UAT и подписания финального акта сдачи-приёмки.</div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- ═══════════════════ COMPARISON ═══════════════════ -->
+<section class="compare" id="compare">
+ <div class="container">
+ <div class="section-meta">
+ <span class="num">07</span>
+ <span class="arrow"></span>
+ <span>Два варианта старта</span>
+ </div>
+
+ <h2>Гибкий вход: только Rental — или сразу с Board.</h2>
+
+ <div class="compare-grid">
+ <div class="compare-col badge-mvp">
+ <div class="badge">Phase 1 · Rental Core</div>
+ <h3>Rental Module</h3>
+ <div class="price">49 516 750 ₸</div>
+ <ul>
+ <li><span class="check">✓</span>Check-In Desk + OCR Regula + очередь</li>
+ <li><span class="check">✓</span>Платёжный контур (WebKassa, Halyk, Kaspi)</li>
+ <li><span class="check">✓</span>Flutter-приложение (iOS + Android)</li>
+ <li><span class="check">✓</span>eGovMobile ЭЦП + FaceID Verigram</li>
+ <li><span class="check">✓</span>Inventory Service + Dynamic Pricing</li>
+ <li><span class="check">✓</span>Аналитика + Velvet Club</li>
+ <li><span class="check">✓</span>UX/UI, мультиязычность, offline-кэш</li>
+ <li><span class="cross">×</span>Board: управление пользователями</li>
+ <li><span class="cross">×</span>Board: кэшбек-система</li>
+ <li><span class="cross">×</span>Новые Rental-сущности (RentalUnit и др.)</li>
+ </ul>
+ </div>
+ <div class="compare-col badge-full">
+ <div class="badge">Full · Rental + Board</div>
+ <h3>+ Board Доработки</h3>
+ <div class="price">55 581 500 ₸</div>
+ <ul>
+ <li><span class="check">✓</span>Всё из Phase 1</li>
+ <li><span class="check">✓</span>Приглашение пользователей (email-invite)</li>
+ <li><span class="check">✓</span>Управление пользователями + права доступа</li>
+ <li><span class="check">✓</span>Журнал аудита с выгрузкой Excel</li>
+ <li><span class="check">✓</span>Кэшбек-система: партнёры, БИН-карты</li>
+ <li><span class="check">✓</span>RentalUnit, RentalOrder, RentalAgreement</li>
+ <li><span class="check">✓</span>EquipmentStatus — управление жизненным циклом</li>
+ <li><span class="check">✓</span>Доп. 339 ч. Доп. 6 064 750 ₸ (со скидкой)</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- ═══════════════════ CTA ═══════════════════ -->
+<section class="cta-block" id="cta">
+ <div class="container">
+ <div class="section-meta">
+ <span class="num">08</span>
+ <span class="arrow"></span>
+ <span>Следующий шаг</span>
+ </div>
+
+ <h2>Let's <span class="accent">build</span><br>Shymbulak<br>Rental<span style="color:var(--grey-2)">.</span></h2>
+
+ <div class="actions">
+ <a href="https://docs.google.com/spreadsheets/d/1tVweIXcTxGKwEiX0MtIq9mlUygPexmL6NCrvXU9RkU4/edit?gid=1338278813#gid=1338278813" target="_blank" class="btn-primary">
+ Детализация <span class="arrow">↗</span>
+ </a>
+ <a href="tel:+77476129208" class="btn-secondary">+7 747 612 9208</a>
+ </div>
+
+ <div class="cta-meta">
+ <div class="item">
+ <div class="label">01 · Утверждение</div>
+ <div class="value">Согласовать КП, выбрать Phase 1 или Full и подписать договор</div>
+ </div>
+ <div class="item">
+ <div class="label">02 · Доступы</div>
+ <div class="value">Active Directory, серверная инфраструктура, API Halyk / WebKassa</div>
+ </div>
+ <div class="item">
+ <div class="label">03 · Старт</div>
+ <div class="value">В течение 5 рабочих дней<br>после поступления аванса (40%)</div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+ <div class="container">
+ <div class="row">
+ <div class="y-mark">Y</div>
+ <div class="meta">YOKO · 33 Varlamov St., Almaty · yoko.space · KZ-based, projects across CIS · Europe · UAE</div>
+ <div class="meta">Shymbulak Rental Module · КП v1.0 · 08.05.2026</div>
+ </div>
+ </div>
+</footer>
+
+</body>
+</html>
